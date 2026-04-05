@@ -12,9 +12,6 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN a2dismod mpm_event || true
-RUN a2dismod mpm_worker || true
-RUN a2enmod mpm_prefork
 RUN a2enmod rewrite
 
 RUN chown -R www-data:www-data /var/www/html \
