@@ -6,21 +6,37 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-public function up()
-{
-    Schema::table('sops', function (Blueprint $table) {
-        $table->integer('archived_by')->nullable();
-        $table->timestamp('archived_at')->nullable();
-    });
-}
+    public function up(): void
+    {
+        if (!Schema::hasTable('sops')) {
+            return;
+        }
 
-public function down()
-{
-    Schema::table('sops', function (Blueprint $table) {
-        $table->dropColumn(['archived_by', 'archived_at']);
-    });
-}
+        Schema::table('sops', function (Blueprint $table) {
+            if (!Schema::hasColumn('sops', 'archived_by')) {
+                $table->integer('archived_by')->nullable();
+            }
+
+            if (!Schema::hasColumn('sops', 'archived_at')) {
+                $table->timestamp('archived_at')->nullable();
+            }
+        });
+    }
+
+    public function down(): void
+    {
+        if (!Schema::hasTable('sops')) {
+            return;
+        }
+
+        Schema::table('sops', function (Blueprint $table) {
+            if (Schema::hasColumn('sops', 'archived_by')) {
+                $table->dropColumn('archived_by');
+            }
+
+            if (Schema::hasColumn('sops', 'archived_at')) {
+                $table->dropColumn('archived_at');
+            }
+        });
+    }
 };

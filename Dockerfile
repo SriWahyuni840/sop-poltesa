@@ -24,9 +24,4 @@ RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available
 
 EXPOSE 80
 
-CMD php artisan key:generate --force && \
-    php artisan migrate --force && \
-    php artisan storage:link && \
-    php artisan config:clear && \
-    php artisan cache:clear && \
-    apache2-foreground
+CMD ["apache2-foreground"]
