@@ -264,3 +264,13 @@ Route::prefix('direktur')->group(function () {
     Route::get('/persetujuan/{id}/download', [DirekturSopController::class, 'downloadDokumen'])->name('direktur.download');
     Route::post('/persetujuan/{id}/sahkan', [DirekturSopController::class, 'sahkan'])->name('direktur.sop.sahkan');
 });
+
+
+Route::get('/test-db', function () {
+    try {
+        DB::connection()->getPdo();
+        return 'DB CONNECTED ✅';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
